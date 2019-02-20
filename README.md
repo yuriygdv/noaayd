@@ -1,0 +1,142 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+noaayd package
+==============
+
+The goal of **noaayd** is to provide functions that can be used to work with a dataset obtained from the U.S. National Oceanographic and Atmospheric Administration (NOAA) on significant earthquakes around the world. This dataset contains information about 5,933 earthquakes over an approximately 4,000 year time span.
+
+Contents
+--------
+
+The package contains three sets of functions:
+
+-   Two functions for Cleaning a raw dataset ( `eq_clean_data()` and `eq_location_clean()` ) that is supposed to be in tab-delimited format and can be read in using the read\_delim() function in the readr package.
+-   Two new geoms for using with ggplot2 to visualise earthquakes on a timeline ( `geom_timeline()` and `geom_timeline_label()` )
+-   Two functions for mapping the earthquake epicenters and providing some annotations with the mapped data ( `eq_map()` and `eq_create_label()`).
+
+### Cleaning a Raw Dataset
+
+This package was developed to work with a dataset obtained from the [U.S. National Oceanographic and Atmospheric Administration (NOAA)](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1) on significant earthquakes around the world. This dataset contains information about 5,933 earthquakes over an approximately 4,000 year time span.
+
+Before using geoms and data visualizatio functions provided in this package, the source dataset should be downloaded and cleaned.The dataset is in tab-delimited format and can be read in using the read\_delim() function in the readr package.
+
+The package offers the following two cleaning functions:
+
+-   `eq_clean_data()`, that takes raw NOAA data frame and returns a clean data frame. The clean data frame has the following:
+    -   A date column created by uniting the year, month, day and converting it to the Date class
+    -   LATITUDE and LONGITUDE columns converted to numeric class
+-   `eq_location_clean()` that cleans the LOCATION\_NAME column by stripping out the country name (including the colon) and converts names to title case (as opposed to all caps), which is be needed for annotating visualizations.
+
+In this package, `eq_clean_data()` function uses `eq_location_clean()` function to take raw NOAA data frame and return a clean data frame. If this function is used, using `eq_location_clean()` is not necessary, but `eq_location_clean()` can also be used alone.
+
+Reading data in:
+
+``` r
+rawdata <- readr::read_delim("Data/dataset.txt", delim = "\t")
+```
+
+Examples of cleaning data:
+
+``` r
+clean_data <- eq_clean_data("rawdata")
+location_clean_data <- eq_location_clean("rawdata")
+```
+
+### Timeline earthquakes geoms
+
+This package presents the two following geoms to be used as graphical layers to ggplot function in ggplot2 package:
+
+-   `geom_timeline()`: This is a function thatplots a time line of earthquakes ranging from xmin to xmaxdates with a point for each earthquake. Optional aesthetics include color, size, and alpha (for transparency).The xaesthetic is a date and an optional y aesthetic is a factor indicating some stratification in which case multiple time lines will be plotted for each level of the factor (e.g. country).
+-   `geom_timeline_label`: This is a function thatplots a time line of earthquakes ranging from xmin to xmaxdates with a point for each earthquake and a label showing the location. Optional aesthetics include color, size, and alpha (for transparency).The xaesthetic is a date and an optional y aesthetic is a factor indicating some stratification in which case multiple time lines will be plotted for each level of the factor (e.g. country).
+
+Examples of how to use the `geom_timeline()` geom:
+
+``` r
+readr::read_delim("Data/earthquakes.txt", delim = "\t") %>%
+        eq_clean_data() %>%
+        filter(DATE >= "2011-01-01" & DATE <= "2012-01-01") %>%
+        #filter(lubridate::year(DATE) >= 2011 & lubridate::year(DATE) < 2012) %>%   #alternative method of filtering dates
+        ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS)) + 
+        geom_timeline(alpha = 0.5) +
+        theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+        scale_x_date() +
+        scale_size_continuous(name = "Richter scale value")
+```
+
+<img src="man/figures/README-timeline1-1.png" width="100%" />
+
+``` r
+
+readr::read_delim("Data/earthquakes.txt", delim = "\t") %>%
+        eq_clean_data() %>%
+        filter(DATE >= "2011-01-01" & DATE <= "2012-01-01") %>%
+        #filter(lubridate::year(DATE) >= 2011 & lubridate::year(DATE) < 2012) %>%   #alternative method of filtering dates
+        ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS)) + 
+        geom_timeline(aes(y = COUNTRY), alpha = 0.5) +
+        theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+        scale_x_date() +
+        scale_size_continuous(name = "Richter scale value")
+```
+
+<img src="man/figures/README-timeline1-2.png" width="100%" />
+
+Examples of how to use the `geom_timeline_label()` geom:
+
+``` r
+
+readr::read_delim("Data/earthquakes.txt", delim = "\t") %>% 
+    eq_clean_data() %>%
+    filter(DATE >= "2018-01-01" & DATE <= "2019-01-01") %>% 
+    #filter(lubridate::year(DATE) >= 2011 & lubridate::year(DATE) < 2012) %>% 
+    ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) + 
+    geom_timeline_label(alpha = 0.5, n_max=5) +
+    theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+    scale_x_date() +
+    scale_size_continuous(name = "Richter scale value")
+```
+
+<img src="man/figures/README-timelinelabel1-1.png" width="100%" />
+
+``` r
+
+
+readr::read_delim("Data/earthquakes.txt", delim = "\t") %>% 
+    eq_clean_data() %>%
+    filter(DATE >= "2018-01-01" & DATE <= "2019-01-01") %>% 
+    #filter(lubridate::year(DATE) >= 2011 & lubridate::year(DATE) < 2012) %>% 
+    ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) + 
+    geom_timeline_label(aes(y = COUNTRY), alpha = 0.5, n_max=5) +
+    theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+    scale_x_date() +
+    scale_size_continuous(name = "Richter scale value")
+```
+
+<img src="man/figures/README-timelinelabel1-2.png" width="100%" />
+
+### Leaflet Map
+
+This package contains the two following functions for mapping the earthquake epicenters and providing some annotations with the mapped data:
+
+-   `eq_map()`: Mapping the earthquake epicenters and providing some annotations with the mapped data.Takes an argument data containing the filtered data frame with earthquakes to visualize.The function maps the epicenters (LATITUDE/LONGITUDE) and annotates each point with in pop up window containing annotation data stored in a column of the data frame.The user can choose which column is used for the annotation in the pop-up with a function argument named annot\_col. Each earthquake is shown with a circle,and the radius of the circle is proportional to the earthquake's magnitude (EQ\_PRIMARY).
+-   `eq_create_label()`: Creates more interesting pop-ups for the interactive map created with the eq\_map function.Takes the dataset as an argument and creates an HTML label that can be used as the annotation text in the leaflet map. This function puts together a character string for each earthquake that will show the cleaned by the eq\_location\_clean location, the magnitude EQ\_PRIMARY, and the total number of deaths TOTAL\_DEATHS, with boldface labels for each. If an earthquake is missing values for any of these, both the label and the value will be skipped for that element of the tag.
+
+Examples using the mapping functions:
+
+``` r
+readr::read_delim("Data/earthquakes.txt", delim = "\t") %>% 
+     eq_clean_data() %>% 
+     dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) %>% 
+     eq_map(annot_col = "DATE")
+
+eq_create_label <- function(data){
+    base::ifelse(base::is.na(data$LOCATION_NAME)|base::is.na(data$EQ_PRIMARY)|base::is.na(data$TOTAL_DEATHS), 
+                 NA, 
+                 paste("<b>Location</b>", data$LOCATION_NAME,  "<br />", "<b>Magnitude:</b>", data$EQ_PRIMARY, "<br />", "<b>Total death:</b>", data$TOTAL_DEATHS) )
+}
+
+readr::read_delim("Data/earthquakes.txt", delim = "\t") %>% 
+    eq_clean_data() %>% 
+    dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) %>% 
+    dplyr::mutate(popup_text = eq_create_label(.)) %>% 
+    eq_map(annot_col = "popup_text")
+```

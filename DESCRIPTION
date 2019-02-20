@@ -1,0 +1,16 @@
+Package: noaayd
+Type: Package
+Title: Functions for working with NOAA Data
+Version: 0.1.0
+Author: yd
+Maintainer: yd <yuriygdv@gmail.com>
+Description: Provides functions for working with the NOAA dataset.
+    Plots earthquakes and their various characteristics.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Imports: dplyr, maps, readr, testthat
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
