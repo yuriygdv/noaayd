@@ -10,11 +10,12 @@
 #'
 #' @return a clean dataframe with new date column
 #'
-#' @export
-#'
 #' @examples
+#' \dontrun{
 #' eq_clean_data("rawdata")
+#' }
 #'
+#' @export
 eq_clean_data <- function(data){
     data <- dplyr::filter(data, YEAR > 0 & !base::is.na(MONTH) & !base::is.na(DAY))
     data <- dplyr::mutate(data, DATE = base::paste(YEAR, MONTH, DAY, sep="-" ))
@@ -46,7 +47,9 @@ eq_clean_data <- function(data){
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' eq_clean_data("rawdata")
+#' }
 #'
 eq_location_clean <- function(data) {
     data <- dplyr::filter(data, !base::is.na(LOCATION_NAME))

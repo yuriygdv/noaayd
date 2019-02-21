@@ -22,6 +22,8 @@ geom_timeline_label(mapping = NULL, data = NULL, stat = "identity",
 \item{show.legend}{ggplot parameter}
 
 \item{inherit.aes}{ggplot parameter}
+
+\item{...}{other args}
 }
 \value{
 a plot with a timeline of earthquakes and labels
@@ -35,13 +37,17 @@ This is a function thatplots a time line of earthquakes ranging from xmin to xma
 }
 \examples{
 \dontrun{
-ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) + geom_timeline_label(aes(y = COUNTRY), alpha = 0.5, n_max=5) +
-       theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) +
+       geom_timeline_label(aes(y = COUNTRY), alpha = 0.5, n_max=5) +
+       theme(panel.background = element_blank(), legend.position = "bottom",
+       axis.line.x = element_line(size = 1)) +
        scale_x_date() +
        scale_size_continuous(name = "Richter scale value")
 
-ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) + geom_timeline_label(alpha = 0.5, n_max=5) +
-       theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) +
+       geom_timeline_label(alpha = 0.5, n_max=5) +
+       theme(panel.background = element_blank(), legend.position = "bottom",
+       axis.line.x = element_line(size = 1)) +
        scale_x_date() +
        scale_size_continuous(name = "Richter scale value")
 }

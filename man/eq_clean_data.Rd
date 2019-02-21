@@ -21,6 +21,8 @@ Also, it converts LATITUDE and LONGITUDE columns to numeric class
 the function does not read data from a file on a disk
 }
 \examples{
+\dontrun{
 eq_clean_data("rawdata")
+}
 
 }

@@ -12,20 +12,27 @@
 #' @param na.rm ggplot parameter
 #' @param show.legend ggplot parameter
 #' @param inherit.aes ggplot parameter
+#' @param ... other args
 #'
 #' @return a plot with the earthquakes on the timeline
 #'
 #' @examples
 #' \dontrun{
-#' ggplot(clean_data, aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS)) + geom_timeline(alpha = 0.5) +
-#'       theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+#' ggplot(clean_data, aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS)) +
+#'       geom_timeline(alpha = 0.5) +
+#'       theme(panel.background = element_blank(), legend.position = "bottom",
+#'       axis.line.x = element_line(size = 1)) +
 #'       scale_x_date() +scale_size_continuous(name = "Richter scale value")
 #'
-#' ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS)) + geom_timeline(aes(y = COUNTRY), alpha = 0.5) +
-#'       theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+#' ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS)) +
+#'       geom_timeline(aes(y = COUNTRY), alpha = 0.5) +
+#'       theme(panel.background = element_blank(), legend.position = "bottom",
+#'       axis.line.x = element_line(size = 1)) +
 #'       scale_x_date() +
 #'       scale_size_continuous(name = "Richter scale value")
 #' }
+#'
+#' @importFrom ggplot2 ggplot layer
 #'
 #' @export
 geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
@@ -94,21 +101,28 @@ GeomTimeLine <- ggproto("GeomTimeLine", Geom,
 #' @param na.rm ggplot parameter
 #' @param show.legend ggplot parameter
 #' @param inherit.aes ggplot parameter
+#' @param ... other args
 #'
 #' @return a plot with a timeline of earthquakes and labels
 #'
 #' @examples
 #' \dontrun{
-#' ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) + geom_timeline_label(aes(y = COUNTRY), alpha = 0.5, n_max=5) +
-#'        theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+#' ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) +
+#'        geom_timeline_label(aes(y = COUNTRY), alpha = 0.5, n_max=5) +
+#'        theme(panel.background = element_blank(), legend.position = "bottom",
+#'        axis.line.x = element_line(size = 1)) +
 #'        scale_x_date() +
 #'        scale_size_continuous(name = "Richter scale value")
 #'
-#' ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) + geom_timeline_label(alpha = 0.5, n_max=5) +
-#'        theme(panel.background = element_blank(), legend.position = "bottom", axis.line.x = element_line(size = 1)) +
+#' ggplot(aes(x=DATE, size = EQ_PRIMARY, colour = DEATHS, label = LOCATION_NAME)) +
+#'        geom_timeline_label(alpha = 0.5, n_max=5) +
+#'        theme(panel.background = element_blank(), legend.position = "bottom",
+#'        axis.line.x = element_line(size = 1)) +
 #'        scale_x_date() +
 #'        scale_size_continuous(name = "Richter scale value")
 #' }
+#'
+#' @importFrom ggplot2 ggplot layer
 #'
 #' @export
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",

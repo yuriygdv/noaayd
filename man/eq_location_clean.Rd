@@ -20,6 +20,8 @@ and converts names to title case (as opposed to all caps).
 the function does not read data from a file on a disk and removes NA locations
 }
 \examples{
+\dontrun{
 eq_clean_data("rawdata")
+}
 
 }

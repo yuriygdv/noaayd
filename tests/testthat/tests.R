@@ -1,4 +1,6 @@
 library(testthat)
+library(ggplot2)
+library(noaayd)
 
 expect_is(eq_clean_data(rawdata), "data.frame")
 expect_is(eq_clean_data(rawdata)$DATE, "Date")
