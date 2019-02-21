@@ -85,7 +85,6 @@ GeomTimeLine <- ggproto("GeomTimeLine", Geom,
                         })
 
 
-
 #'  Plotting a time line of earthquakes and labels
 #'
 #'  This is a function thatplots a time line of earthquakes ranging from xmin to xmaxdates

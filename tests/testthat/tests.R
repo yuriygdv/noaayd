@@ -13,3 +13,5 @@ expect_is(eq_map(data = cleandata_MEXICO2000, annot_col = "DATE"), "leaflet")
 expect_is(eq_create_label(data = cleandata_MEXICO2000), "character")
 expect_equal(length(eq_create_label(data = cleandata_MEXICO2000)), nrow(cleandata_MEXICO2000))
 
+
+

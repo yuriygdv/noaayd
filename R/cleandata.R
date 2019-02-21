@@ -27,7 +27,6 @@ eq_clean_data <- function(data){
 }
 
 
-
 #' Clean the Location Name
 #'
 #' cleans the LOCATION_NAME column by stripping out the country name (including the colon)
