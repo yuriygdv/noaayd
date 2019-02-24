@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/yuriygdv/noaayd.svg?branch=Local_noaayd)](https://travis-ci.org/yuriygdv/noaayd)
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 noaayd package
 ==============
